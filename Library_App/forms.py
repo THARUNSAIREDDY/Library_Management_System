@@ -81,7 +81,7 @@ class Books_AvailForm_admin(forms.ModelForm):
 		model=Books_Avail
 		fields=['Book_name','Book_author','Book_Edition','Book_count']
 		widgets={"Book_name":forms.TextInput(attrs={"class":"form-control "
-			,"placeholder":"Enter Book name","name":"Book_name","required":True}),
+			,"placeholder":"Enter Book name","name":"Book_name","id":"tags","required":True}),
 		"Book_author":forms.TextInput(attrs={"class":"form-control "
 			,"placeholder":"Enter Book Author","name":"Book_author","required":True}),
 		"Book_Edition":forms.TextInput(attrs={"class":"form-control "
@@ -112,4 +112,20 @@ class Expire_date(forms.ModelForm):
 # 			,"placeholder":"Enter u r Name","required":True})}
 
 		
+class User(forms.ModelForm):
+	class Meta:
+		model = User
+		fields =[]
+		widgets={
+		 "username":forms.TextInput(attrs={"class":"form-control", 'placeholder':"enter old password"}),
 
+		 "role":forms.Select(attrs={"class":"form-control", 'placeholder':"enter old password"}),
+		
+		"role":forms.Select(attrs={"class":"form-control", 'placeholder':"enter old password"}),
+		
+		"role":forms.Select(attrs={"class":"form-control", 'placeholder':"enter old password"}),
+		
+		"role":forms.Select(attrs={"class":"form-control", 'placeholder':"enter old password"}),
+		
+		}
+	

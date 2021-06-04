@@ -1,3 +1,4 @@
+
 from django.shortcuts import render,redirect
 from Library_App.forms import UsForm,ComplaintForm,UtupForm,ChPwdForm,Books_AvailForm,Books_AvailForm_admin,Expire_date,Usperm,ImForm
 from django.core.mail import send_mail
@@ -12,7 +13,7 @@ from datetime import date
 from django.core import mail
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 
 
 
@@ -139,7 +140,8 @@ def Books_AvailF(rq):
 
 	return render(rq,"html/Books_Avail.html",{'t':e2,'t1':e})
 @login_required
-def sendrequest(rq):
+def sendrequest(rq,id):
+	k= Books_Avail.objects.get(id=id)
 	if rq.method=="POST":
 		a=rq.POST['Book_name']
 		c=rq.POST['Book_author']
@@ -148,8 +150,10 @@ def sendrequest(rq):
 			notes=st_admin_data.objects.filter(Book_name=a)
 			for i in notes:
 				if i.Book_author==c and i.issue_status==1:
+
 					i.issue_status='3'
 					showtime = strftime("%Y-%m-%d")
+					print(showtime)
 					i.Return_Date=showtime
 					l=str(showtime).split("-")
 					l1=str(i.Expire_date).split("-")
@@ -164,7 +168,7 @@ def sendrequest(rq):
 						sender=settings.EMAIL_HOST_USER
 						t=EmailMessage(subject,body,sender,[receiver])
 						t.send()
-						return HttpResponse[" Successfully_Sent"]
+						return httpResponse(" Successfully_Sent")
 
 
 
@@ -172,6 +176,7 @@ def sendrequest(rq):
 
 					print(l)
 					i.save()
+					k.save()
 		else:
 			print(a)
 			book_name=[]
@@ -192,8 +197,13 @@ def sendrequest(rq):
 				q.save()
 
 		
-	e=Books_AvailForm()
+	e=Books_AvailForm(instance=k)
 	return render(rq,"html/sendrequest.html",{'t':e})
+
+
+
+
+
 def studentbooks_avail(rq):
 	e2=Books_Avail.objects.all()
 	return render(rq,'html/studentbook_avail.html',{'t':e2})
@@ -238,7 +248,7 @@ def acceptadmin(req,id):
 		ac.Issue_date=a
 		ac.Expire_date=b
 		ac.save()
-		return render(req,'html/expiredate.html')	
+		return redirect('/notipending')
 	else:
 		ac=st_admin_data.objects.get(id=id)
 		nam=ac.Book_name
@@ -279,19 +289,41 @@ def return_accept(rq,id):
 	rc.issue_status='4'
 	rc.save()
 	return redirect('/books_return')
-def requestform(rq):
-	e2=User.objects.get(id=rq.user.id)
-	if rq.method=='POST':
-		print(e2)
-		e2.Rg_No=rq.POST['rollno']
-		e2.Branch=rq.POST['dept']
-		e2.email=rq.POST['email']
-		e2.address=rq.POST['ad']
-		e2.phone_no=rq.POST['pn']
-		e2.save()
-		return redirect('/lg')
-	return render(rq,'html/requestp.html')
+# def requestform(rq):
+# 	e2=User.objects.get(id=rq.user.id)
+# 	if rq.method=='POST':
+# 		print(e2)
+# 		e2.Rg_No=rq.POST['rollno']
+# 		e2.Branch=rq.POST['dept']
+# 		e2.email=rq.POST['email']
+# 		e2.address=rq.POST['ad']
+# 		e2.phone_no=rq.POST['pn']
+# 		e2.save()
+# 		return redirect('/lg')
+# 	return render(rq,'html/requestp.html')
 
+def requestform(request):
+	if request.method=="POST":
+		
+		e=request.POST.get('email')
+		ut=request.POST.get('utype')
+		ud=request.POST.get('uid')
+		ms=request.POST.get('msg')
+		f=request.FILES['fe']
+		a="Hi welcome" "Your Requested Dept."  +ut
+		t = EmailMessage("UserRole Change",a,settings.EMAIL_HOST_USER,[settings.ADMINS[0][1],e])
+	
+		t.attach(f.name,f.read(),f.content_type)
+		t.send()
+		if t==1:
+			return redirect('/reqp')
+		else:
+			return redirect('/lg')
+
+
+
+	
+	return render(request,'html/requestp.html')
 def adminpermissions(request):
 	ty=User.objects.all()
 	return render(request,'html/adminpermissions.html',{'q':ty})
@@ -315,6 +347,16 @@ def fine(rq):
 	fine1=st_admin_data.objects.all()
 	data=Books_Avail.objects.filter()
 	return render(rq,'html/fine.html',{'f':fine1})
+def autocomplete(rq):
+	if 'term' in rq.GET:
+		a=data=Books_Avail.objects.filter(Book_author__istartswith=rq.GET.get('term'))
+		l=list()
+		for i in a:
+			l.append(i.Book_author)
+		print(l)
+		return JsonResponse(l,safe=False)
+		
+
 
 
 
