@@ -141,7 +141,7 @@ def Books_AvailF(rq):
 	return render(rq,"html/Books_Avail.html",{'t':e2,'t1':e})
 @login_required
 def sendrequest(rq,id):
-	k= Books_Avail.objects.get(id=id)
+	m= Books_Avail.objects.get(id=id)
 	if rq.method=="POST":
 		a=rq.POST['Book_name']
 		c=rq.POST['Book_author']
@@ -176,7 +176,7 @@ def sendrequest(rq,id):
 
 					print(l)
 					i.save()
-					k.save()
+					
 		else:
 			print(a)
 			book_name=[]
@@ -197,7 +197,7 @@ def sendrequest(rq,id):
 				q.save()
 
 		
-	e=Books_AvailForm(instance=k)
+	e=Books_AvailForm(instance=m)
 	return render(rq,"html/sendrequest.html",{'t':e})
 
 
@@ -226,10 +226,12 @@ def viewnt(req):
 	allnotes=st_admin_data.objects.all().count()
 	re=st_admin_data.objects.filter(issue_status=2).count()
 	return render(req,'html/adminpage.html',{'ac':accept,'all':allnotes,'a':re})
+
 def notipending(req):
 	pending2=st_admin_data.objects.all()
 	data=Books_Avail.objects.filter()
 	return render(req,'html/noti_pendingdata.html',{'p':pending2})
+	
 def rejecting(req):
 	pending2=st_admin_data.objects.all()
 	data=Books_Avail.objects.filter()
