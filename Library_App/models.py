@@ -46,7 +46,6 @@ class st_admin_data(models.Model):
 	Expire_date=models.DateField(blank=True,null=True)
 	Return_Date=models.DateField(blank=True,null=True)
 	Fine=models.IntegerField(default=0)
-
 	uid=models.ForeignKey(User,on_delete=models.CASCADE)
 
 # @receiver(post_save,sender=User)
@@ -64,7 +63,6 @@ class Books_Avail(models.Model):
 
 	Book_author=models.CharField(max_length=120,default="")
 	Book_Edition=models.CharField(max_length=120,default="")
-
 	Book_count=models.IntegerField(default=0)
 	Book_Updatedcount=models.IntegerField(default=0)
 	Book_Rem=models.IntegerField(default=0)

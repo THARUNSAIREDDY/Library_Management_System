@@ -269,7 +269,7 @@ def books_return(request,id):
 		i.Fine=delta.days*2
 		if i.Fine>0:
 			subject='Fine Info'
-			body="Hi +{{request.user.username}}+ Your fine amount is "
+			body="Hi +{{request.user.username}}+ Your fine amount is +{{i.fine}}+ Kindly verify and Pay the fine to AITS Library "
 			receiver=request.user.email
 			sender=settings.EMAIL_HOST_USER
 			t=EmailMessage(subject,body,sender,[receiver])
@@ -318,7 +318,7 @@ def requestform(request):
 		ud=request.POST.get('uid')
 		ms=request.POST.get('msg')
 		f=request.FILES['fe']
-		a="Hi welcome" "Your Requested Dept."  +ut
+		a="Hi welcome"+"Your Requested Dept."  +ut
 		t = EmailMessage("UserRole Change",a,settings.EMAIL_HOST_USER,[settings.ADMINS[0][1],e])
 	
 		t.attach(f.name,f.read(),f.content_type)
