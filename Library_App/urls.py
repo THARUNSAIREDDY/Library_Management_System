@@ -32,7 +32,8 @@ urlpatterns = [
     path('rejecting/',views.rejecting,name="rejecting"),
     path('noteaccept/<str:id>',views.acceptadmin,name="acceptadmin"),
     path('notereject/<str:id>',views.rejectadmin,name="rejectadmin"),
-    path('books_return/',views.books_return,name='books_return'),
+    path('books_return/<int:id>',views.books_return,name='books_return'),
+    path('book_ret/',views.book_ret,name='book_ret'),
     path('books_st_have/',views.books_st_have,name="bk"),
     path('return_accept/<int:id>',views.return_accept,name='return_accept'),
     path('reqp/',views.requestform,name='pm'),
@@ -40,5 +41,6 @@ urlpatterns = [
     path('eper/<int:k>/',views.updatepermissions,name='up'),
     path('fine/',views.fine,name='fine'),
     path('issue_book/',views.issue_book,name='issue_book'),
+    path('myreq/',views.myreq,name='myreq'),
     path('aut/',views.autocomplete,name='autocomplete'),
 ]

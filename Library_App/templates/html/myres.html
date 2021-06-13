@@ -24,7 +24,6 @@
 			<td>Book_Name</td>
 			<td>Book_author</td>
 			<td>Status</td>
-			<td>Action</td>
 			
 		</tr>
 			
@@ -42,9 +41,8 @@
 					{% elif i.issue_status is 2 %}
 					<td class="bg bg-danger text-center">Rejected</td>
 					{% else %}
-					<td class="bg bg-danger text-center">Notavailble</td>
+					<td class="bg bg-danger text-center">Returned</td>
 					{% endif %}
-					<td><a class="confirm-delete" href="{% url 'datadelete' i.id %}">Delete</a></td>
 					
 				</tr>
 			{% endfor %}

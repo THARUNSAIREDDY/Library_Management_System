@@ -18,7 +18,7 @@ class User(AbstractUser):
 	role = models.IntegerField(default=2,choices=t)
 	g=[('M',"Male"),('F','Female')]
 	age=models.IntegerField(default=10)
-	gender=models.CharField(max_length=10,choices=g,default="F")
+	gender=models.CharField(max_length=10,choices=g,default="M")
 	impf=models.ImageField(upload_to='profiles/',default="profile.jpg")
 	Rg_No=models.CharField(max_length=120,default="")
 	Branch=models.CharField(choices=r,max_length=120,default="")

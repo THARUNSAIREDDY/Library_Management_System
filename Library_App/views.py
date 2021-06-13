@@ -145,63 +145,36 @@ def sendrequest(rq,id):
 	if rq.method=="POST":
 		a=rq.POST['Book_name']
 		c=rq.POST['Book_author']
-		b=rq.POST['browser']
-		if b=='Book_Retrun':
-			notes=st_admin_data.objects.filter(Book_name=a)
-			for i in notes:
-				if i.Book_author==c and i.issue_status==1:
+		
+		
+		print(a)
+		book_name=[]
+		e=Books_AvailForm(rq.POST)
+		notes=Books_Avail.objects.all()
+		for i in notes:
+			if i.Book_name==a:
+				k=i.Book_count
+		print(book_name)
 
-					i.issue_status='3'
-					showtime = strftime("%Y-%m-%d")
-					print(showtime)
-					i.Return_Date=showtime
-					l=str(showtime).split("-")
-					l1=str(i.Expire_date).split("-")
-					d1 = date(int(l[0]), int(l[1]), int(l[2]))
-					d0 = date(int(l1[0]), int(l1[1]), int(l1[2]))
-					delta = d1 - d0
-					i.Fine=delta.days*2
-					if i.Fine>0:
-						subject='Fine Info'
-						body="Hi +{{rq.user.username}}+ Your fine amount is "
-						receiver=rq.user.email
-						sender=settings.EMAIL_HOST_USER
-						t=EmailMessage(subject,body,sender,[receiver])
-						t.send()
-						return httpResponse(" Successfully_Sent")
-
-
-
-					print(delta.days)
-
-					print(l)
-					i.save()
-					
-		else:
-			print(a)
-			book_name=[]
-			e=Books_AvailForm(rq.POST)
-			notes=Books_Avail.objects.all()
-			for i in notes:
-				if i.Book_name==a:
-					k=i.Book_count
-			print(book_name)
-
-			if e.is_valid():
-				q=e.save(commit=False)
-				q.uid_id=rq.user.id
-				q.Book_count=k
-				q.Name=rq.user.username
-				q.Rg_No=rq.user.Rg_No
-				q.Branch=rq.user.Branch
-				q.save()
+		if e.is_valid():
+			q=e.save(commit=False)
+			q.uid_id=rq.user.id
+			q.Book_count=k
+			q.Name=rq.user.username
+			q.Rg_No=rq.user.Rg_No
+			q.Branch=rq.user.Branch
+			q.save()
+			return redirect('/myreq')
 
 		
 	e=Books_AvailForm(instance=m)
 	return render(rq,"html/sendrequest.html",{'t':e})
 
 
+def book_ret(rq):
+	rc=st_admin_data.objects.all()
 
+	return render(rq,'html/Books_return.html',{'rc':rc})
 
 
 def studentbooks_avail(rq):
@@ -226,12 +199,10 @@ def viewnt(req):
 	allnotes=st_admin_data.objects.all().count()
 	re=st_admin_data.objects.filter(issue_status=2).count()
 	return render(req,'html/adminpage.html',{'ac':accept,'all':allnotes,'a':re})
-
 def notipending(req):
 	pending2=st_admin_data.objects.all()
 	data=Books_Avail.objects.filter()
 	return render(req,'html/noti_pendingdata.html',{'p':pending2})
-	
 def rejecting(req):
 	pending2=st_admin_data.objects.all()
 	data=Books_Avail.objects.filter()
@@ -275,10 +246,45 @@ def rejectadmin(req,id):
 	rc.save()
 	return redirect('/viewn')
 
-def books_return(request):
-	rc=st_admin_data.objects.all()
-	print(rc)
-	return render(request,'html/Books_return.html',{'rc':rc})
+def books_return(request,id):
+
+	i=st_admin_data.objects.get(id=id)
+	if i.issue_status==1:
+		i.issue_status='3'
+		k=Books_Avail.objects.all()
+		for j in k:
+			if j.Book_name==i.Book_name and j.Book_author==i.Book_author:
+				j.Book_count=j.Book_count+1
+				j.save()
+			
+		showtime = strftime("%Y-%m-%d")
+		print(showtime)
+		i.Return_Date=showtime
+		l=str(showtime).split("-")
+		l1=str(i.Expire_date).split("-")
+		d1 = date(int(l[0]), int(l[1]), int(l[2]))
+		d0 = date(int(l1[0]), int(l1[1]), int(l1[2]))
+		delta = d1 - d0
+		
+		i.Fine=delta.days*2
+		if i.Fine>0:
+			subject='Fine Info'
+			body="Hi +{{request.user.username}}+ Your fine amount is "
+			receiver=request.user.email
+			sender=settings.EMAIL_HOST_USER
+			t=EmailMessage(subject,body,sender,[receiver])
+			t.send()
+						# return httpResponse(" Successfully_Sent")
+
+
+
+			print(delta.days)
+
+			print(l)
+			i.save()
+
+
+	return redirect('/books_st_have')
 
 def issue_book(request):
 	rc=st_admin_data.objects.all()
