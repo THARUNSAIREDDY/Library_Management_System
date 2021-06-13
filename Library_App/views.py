@@ -269,7 +269,7 @@ def books_return(request,id):
 		i.Fine=delta.days*2
 		if i.Fine>0:
 			subject='Fine Info'
-			body="Hi +{{request.user.username}}+ Your fine amount is +{{i.fine}}+ Kindly verify and Pay the fine to AITS Library "
+			body="Hi +{{request.user.username}}+ Your fine amount is +{{i.Fine}}+ Kindly verify and Pay the fine to AITS Library "
 			receiver=request.user.email
 			sender=settings.EMAIL_HOST_USER
 			t=EmailMessage(subject,body,sender,[receiver])
