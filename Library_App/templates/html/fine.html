@@ -20,7 +20,7 @@
 			
 			<td>Fine</td>
 
-			<td>Delete</td>
+		
 		{% for i in f %}
 		{% if i.issue_status is 1 %}
 		<tr>
@@ -30,7 +30,6 @@
 			<td>
 				{{i.Fine}}
 			</td>
-			<td><a class="confirm-delete btn btn-warning" href="{% url 'datadelete' i.id %}">Delete</a></td>
 		</tr>
 		{% endif %}
 		{% endfor %}
