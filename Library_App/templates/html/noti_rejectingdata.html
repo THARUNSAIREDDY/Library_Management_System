@@ -34,6 +34,7 @@
 
 
 			<td>Action</td>
+			<td>Delete</td>
 		</tr>
 		{% for i in p %}
 		{% if i.issue_status is 2 %}
@@ -48,6 +49,7 @@
 			{% if i.issue_status is 2 %}
 			<td class="bg-danger">Rejected</td>
 			{% endif %}
+			<td><a class="confirm-delete btn btn-warning" href="{% url 'datadelete' i.id %}">Delete</a></td>
 		</tr>
 		{% endif %}
 		{% endfor %}

@@ -32,6 +32,7 @@
 			<td>Book_Author</td>
 			<td>Book_Edition</td>
 			<td>Action</td>
+			<td>Delete</td>
 		</tr>
 		{% for i in p %}
 		{% if i.issue_status is 1 %}
@@ -45,6 +46,7 @@
 			{% if i.issue_status is 1 %}
 			<td class="bg-success">Accepted</td>
 			{% endif %}
+			<td><a class="confirm-delete btn btn-warning" href="{% url 'datadelete' i.id %}">Delete</a></td>
 		</tr>
 		
 		{% endif %}

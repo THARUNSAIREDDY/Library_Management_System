@@ -18,7 +18,7 @@ class User(AbstractUser):
 	role = models.IntegerField(default=2,choices=t)
 	g=[('M',"Male"),('F','Female')]
 	age=models.IntegerField(default=10)
-	gender=models.CharField(max_length=10,choices=g,default="M")
+	gender=models.CharField(max_length=10,choices=g,default="F")
 	impf=models.ImageField(upload_to='profiles/',default="profile.jpg")
 	Rg_No=models.CharField(max_length=120,default="")
 	Branch=models.CharField(choices=r,max_length=120,default="")
@@ -46,6 +46,7 @@ class st_admin_data(models.Model):
 	Expire_date=models.DateField(blank=True,null=True)
 	Return_Date=models.DateField(blank=True,null=True)
 	Fine=models.IntegerField(default=0)
+
 	uid=models.ForeignKey(User,on_delete=models.CASCADE)
 
 # @receiver(post_save,sender=User)
@@ -63,9 +64,12 @@ class Books_Avail(models.Model):
 
 	Book_author=models.CharField(max_length=120,default="")
 	Book_Edition=models.CharField(max_length=120,default="")
+	Book_Category=models.CharField(max_length=120,default="")
 	Book_count=models.IntegerField(default=0)
 	Book_Updatedcount=models.IntegerField(default=0)
 	Book_Rem=models.IntegerField(default=0)
+	Book_Enterdate=models.DateField(blank=True,null=True)
+	Time=models.CharField(max_length=120,default="")
 
 	
 
