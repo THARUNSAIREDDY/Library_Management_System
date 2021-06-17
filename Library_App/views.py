@@ -350,7 +350,6 @@ def requestform(request):
 		e2.Branch=request.POST['utype']
 		e2.email=request.POST['email']
 		e2.phone_no=request.POST['pn']
-		# e2.Id_Card=request.POST['fe']
 		e=request.POST.get('email')
 		ut=request.POST.get('utype')
 		ud=request.POST.get('uid')
@@ -369,7 +368,7 @@ def requestform(request):
 			return redirect('/lg')
 
 	return render(request,'html/requestp.html')
-	
+
 def adminpermissions(request):
 	ty=User.objects.all()
 	return render(request,'html/adminpermissions.html',{'q':ty})
