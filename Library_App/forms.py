@@ -77,6 +77,7 @@ class Books_AvailForm(forms.ModelForm):
 			,"placeholder":"Enter u r Branch ","required":True}),
 		"Name":forms.TextInput(attrs={"class":"form-control "
 			,"placeholder":"Enter u r Name","required":True})}
+
 class Books_AvailForm_admin(forms.ModelForm):
 	class Meta:
 		model=Books_Avail
@@ -91,6 +92,7 @@ class Books_AvailForm_admin(forms.ModelForm):
 			,"placeholder":"Enter Book_Category","required":True}),
 		"Book_count":forms.NumberInput(attrs={"class":"form-control "
 			,"placeholder":"No. of Books","name":"Book_count","required":True})}
+		
 class Expire_date(forms.ModelForm):
 	class Meta:
 		model=st_admin_data

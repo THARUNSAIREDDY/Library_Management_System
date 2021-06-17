@@ -153,10 +153,13 @@ def Books_AvailF(rq):
 				q.save()
 	e=Books_AvailForm_admin()
 	e2=Books_Avail.objects.all()
-
-	
-
+	if 'q' in rq.GET:
+		q=rq.GET['q']
+		e2=Books_Avail.objects.filter(Book_name=q)
+	else:
+		e2=Books_Avail.objects.all()
 	return render(rq,"html/Books_Avail.html",{'t':e2,'t1':e})
+
 @login_required
 def sendrequest(rq,id):
 	s=st_admin_data.objects.filter(uid_id=rq.user.id)
@@ -204,7 +207,11 @@ def sendrequest(rq,id):
 
 
 def studentbooks_avail(rq):
-	e2=Books_Avail.objects.all()
+	if 'q' in rq.GET:
+		q=rq.GET['q']
+		e2=Books_Avail.objects.filter(Book_name=q)
+	else:
+		e2=Books_Avail.objects.all()
 	return render(rq,'html/studentbook_avail.html',{'t':e2})
 @login_required
 def myreq(req):
@@ -343,6 +350,7 @@ def requestform(request):
 		e2.Branch=request.POST['utype']
 		e2.email=request.POST['email']
 		e2.phone_no=request.POST['pn']
+		# e2.Id_Card=request.POST['fe']
 		e=request.POST.get('email')
 		ut=request.POST.get('utype')
 		ud=request.POST.get('uid')
@@ -353,6 +361,7 @@ def requestform(request):
 	
 		t.attach(f.name,f.read(),f.content_type)
 		t.send()
+		
 		e2.save()
 		if t==1:
 			return redirect('/reqp')
