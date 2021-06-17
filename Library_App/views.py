@@ -361,17 +361,15 @@ def requestform(request):
 	
 		t.attach(f.name,f.read(),f.content_type)
 		t.send()
-		
+
 		e2.save()
 		if t==1:
 			return redirect('/reqp')
 		else:
 			return redirect('/lg')
 
-
-
-	
 	return render(request,'html/requestp.html')
+	
 def adminpermissions(request):
 	ty=User.objects.all()
 	return render(request,'html/adminpermissions.html',{'q':ty})
