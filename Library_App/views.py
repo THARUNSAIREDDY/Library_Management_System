@@ -1,4 +1,3 @@
-
 from django.shortcuts import render,redirect
 from Library_App.forms import UsForm,ComplaintForm,UtupForm,ChPwdForm,Books_AvailForm,Books_AvailForm_admin,Expire_date,Usperm,ImForm
 from django.core.mail import send_mail
@@ -8,18 +7,31 @@ from django.contrib.auth.models import User
 from Library_App.models import Books_Avail,st_admin_data,AbstractUser,User
 from django.contrib.auth.decorators import login_required
 import sys
-import datetime
 from time import gmtime, strftime
-from datetime import date,timedelta
+from datetime import date
 from django.core import mail
+from django.contrib.auth import authenticate,login
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
-from django.http import HttpResponse,JsonResponse
 from django.http import HttpResponse
 
 
+def Login_user(request):
+	if request.method=='POST':
+		username=request.POST.get('username')
+		password=request.POST.get('password')
 
-# Create your views here.
+		user=authenticate(request,username=username,password=password)
+
+		if not user:
+			messages.add_message(request,messages.WARNING,'invalid Credentials')
+			return render(request,'html/login.html')
+		else:
+			login(request,user)
+			messages.add_message(request,messages.SUCCESS,f'Welcome {user.username}')
+			return redirect('/')
+	return render(request,'html/login.html')
+
 def home(rq):
 	return render(rq,'html/home.html')
 
@@ -401,12 +413,3 @@ def autocomplete(rq):
 		print(l)
 		return JsonResponse(l,safe=False)
 		
-
-
-
-
-
-
-
-	
-
