@@ -33,7 +33,7 @@
 			<td>Book_Edition</td>
 			<td>Books_Available</td>
 			<td>Action</td>
-		
+			<td>Delete</td>
 		</tr>
 		{% for i in p %}
 		<tr>
@@ -55,7 +55,7 @@
 			{% else %}
 			<td class="bg-info">Returned</td>
 			{% endif %}
-			
+			<td><a class="confirm-delete btn btn-warning" href="{% url 'datadelete' i.id %}">Delete</a></td>
 		</tr>
 		{% endfor %}
 	</table>

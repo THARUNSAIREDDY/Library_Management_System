@@ -41,22 +41,8 @@
 			<td>{{i.Book_author}}</td>
 			<td>{{i.Issue_date}}</td>
 			<td>{{i.Expire_date}}</td>
-			<td>
-				<p>
-  				
- 					 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-					    check here
-					  </button>
-				</p>
-				<div class="collapse" id="collapseExample">
-					  <div class="card card-body">
-  				 You have Rs.{{i.Fine}} of fine.  
-  					</div>
-
-		    
-		  		
-			
-			</td>
+			<td>Rs.{{i.Fine}}</td>
+				
 			{% if i.issue_status == 3 %}
 			<td class="bg-danger">Returned</td>
 			{% else %}

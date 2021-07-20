@@ -24,7 +24,7 @@ class User(AbstractUser):
 	Branch=models.CharField(choices=r,max_length=120,default="")
 	phone_no=models.CharField(null=True,default="1234567890",max_length=10)
 	address=models.CharField(max_length=200,default="Tirupathi")
-	Id_Card=models.FileField(upload_to='profiles/',default='')
+	Id_Card=models.ImageField(upload_to='profiles/',default='')
 
 
 
